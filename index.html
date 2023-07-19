@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Dice Calculator</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+</head>
+
+<body onload="init()">	
+	<div class="container">
+		<h1>Helios Laser</h1>
+		<div class="row">
+			<div class="col">
+				<label for="attackDiceNumber" class="form-label">Attack Dice: </label>
+				<select class="form-select" name="attackDiceNumber" id="attackDiceNumber">
+					<option value="2" selected>2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+					<option value="6">6</option>
+					<option value="7">7</option>
+					<option value="8">8</option>
+					<option value="9">9</option>
+					<option value="10">10</option>
+					<option value="11">11</option>
+					<option value="12">12</option>
+					<option value="13">13</option>
+					<option value="14">14</option>
+					<option value="15">15</option>
+					<option value="16">16</option>
+					<option value="17">17</option>
+					<option value="18">18</option>
+					<option value="19">19</option>
+					<option value="20">20</option>
+					<option value="21">21</option>
+					<option value="22">22</option>
+					<option value="23">23</option>
+					<option value="24">24</option>
+					<option value="25">25</option>
+					<option value="26">26</option>
+					<option value="27">27</option>
+					<option value="28">28</option>
+					<option value="29">29</option>
+					<option value="30">30</option>
+				</select>
+			</div>
+			<div class="col">
+				<label class="form-label" for="defenseDiceNumber">Defense Dice: </label>
+				<select class="form-select" name="defenseDiceNumber" id="defenseDiceNumber">
+					<option value="0" selected>0</option>
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="4">4</option>
+					<option value="5">5</option>
+					<option value="6">6</option>
+				</select>
+			</div>
+		</div>
+		<br />
+		<div class="row">
+			<button type="button" class="btn btn-primary" onclick="getResults()">Calculate</button>		
+		</div>
+		<br />
+		<div class="mb-3">
+			<h2>Expected Damage: <br /><h1 id="expectedDamageNumber"></h1></h2>
+		</div>
+	</div>
+	
+</body>
+
+<script>
+
+	var diceCharts = [];
+
+	DiceResult = function (attackDice, def0, def1, def2, def3, def4, def5, def6) {
+		this.attackDice = parseInt(attackDice);
+		this.def0 = def0;
+		this.def1 = def1;
+		this.def2 = def2;
+		this.def3 = def3;
+		this.def4 = def4;
+		this.def5 = def5;
+		this.def6 = def6;
+	}
+
+	function buildCharts() {
+		diceCharts.push({ 'attackDice': 2, 'def0': 1.12, 'def1': 0.83, 'def2': 0.6, 'def3': 0.44, 'def4': 0.31, 'def5': 0.22, 'def6': 0.16 });
+		diceCharts.push({ 'attackDice': 3, 'def0': 1.69, 'def1': 1.33, 'def2': 1.04, 'def3': 0.8, 'def4': 0.61, 'def5': 0.46, 'def6': 0.34 });
+		diceCharts.push({ 'attackDice': 4, 'def0': 2.25, 'def1': 1.87, 'def2': 1.52, 'def3': 1.23, 'def4': 0.97, 'def5': 0.76, 'def6': 0.6 });
+		diceCharts.push({ 'attackDice': 5, 'def0': 2.81, 'def1': 2.41, 'def2': 2.04, 'def3': 1.7, 'def4': 1.4, 'def5': 1.14, 'def6': 0.92 });
+		diceCharts.push({ 'attackDice': 6, 'def0': 3.38, 'def1': 2.96, 'def2': 2.57, 'def3': 2.21, 'def4': 1.87, 'def5': 1.57, 'def6': 1.3 });
+		diceCharts.push({ 'attackDice': 7, 'def0': 3.94, 'def1': 3.52, 'def2': 3.12, 'def3': 2.73, 'def4': 2.37, 'def5': 2.03, 'def6': 1.76 });
+		diceCharts.push({ 'attackDice': 8, 'def0': 4.5, 'def1': 4.08, 'def2': 3.67, 'def3': 3.27, 'def4': 2.89, 'def5': 2.53, 'def6': 2.19 });
+		diceCharts.push({ 'attackDice': 9, 'def0': 5.06, 'def1': 4.64, 'def2': 4.22, 'def3': 3.82, 'def4': 3.42, 'def5': 3.04, 'def6': 2.69 });
+		diceCharts.push({ 'attackDice': 10, 'def0': 5.62, 'def1': 5.2, 'def2': 4.79, 'def3': 4.37, 'def4': 3.97, 'def5': 3.58, 'def6': 3.2 });
+		diceCharts.push({ 'attackDice': 11, 'def0': 6.19, 'def1': 5.77, 'def2': 5.35, 'def3': 4.93, 'def4': 4.52, 'def5': 4.12, 'def6': 3.72 });
+		diceCharts.push({ 'attackDice': 12, 'def0': 6.75, 'def1': 6.33, 'def2': 5.91, 'def3': 5.49, 'def4': 5.08, 'def5': 4.67, 'def6': 4.26 });
+		diceCharts.push({ 'attackDice': 13, 'def0': 7.31, 'def1': 6.89, 'def2': 6.46, 'def3': 6.05, 'def4': 5.63, 'def5': 5.22, 'def6': 4.81 });
+		diceCharts.push({ 'attackDice': 14, 'def0': 7.87, 'def1': 7.45, 'def2': 7.03, 'def3': 6.61, 'def4': 6.19, 'def5': 5.77, 'def6': 5.36 });
+		diceCharts.push({ 'attackDice': 15, 'def0': 8.44, 'def1': 8.02, 'def2': 7.59, 'def3': 7.17, 'def4': 6.75, 'def5': 6.33, 'def6': 5.92 });
+		diceCharts.push({ 'attackDice': 16, 'def0': 9, 'def1': 8.58, 'def2': 8.16, 'def3': 7.74, 'def4': 7.32, 'def5': 6.89, 'def6': 6.48 });
+		diceCharts.push({ 'attackDice': 17, 'def0': 9.56, 'def1': 9.14, 'def2': 8.72, 'def3': 8.3, 'def4': 7.87, 'def5': 7.45, 'def6': 7.04 });
+		diceCharts.push({ 'attackDice': 18, 'def0': 10.13, 'def1': 9.7, 'def2': 9.28, 'def3': 8.86, 'def4': 8.44, 'def5': 8.02, 'def6': 7.6 });
+		diceCharts.push({ 'attackDice': 19, 'def0': 10.69, 'def1': 10.27, 'def2': 9.85, 'def3': 9.42, 'def4': 9, 'def5': 8.58, 'def6': 8.16 });
+		diceCharts.push({ 'attackDice': 20, 'def0': 11.25, 'def1': 10.83, 'def2': 10.41, 'def3': 9.99, 'def4': 9.56, 'def5': 9.14, 'def6': 8.71 });
+		diceCharts.push({ 'attackDice': 21, 'def0': 11.81, 'def1': 11.39, 'def2': 10.97, 'def3': 10.54, 'def4': 10.13, 'def5': 9.7, 'def6': 9.28 });
+		diceCharts.push({ 'attackDice': 22, 'def0': 12.37, 'def1': 11.95, 'def2': 11.53, 'def3': 11.11, 'def4': 10.69, 'def5': 10.27, 'def6': 9.85 });
+		diceCharts.push({ 'attackDice': 23, 'def0': 12.94, 'def1': 12.52, 'def2': 12.1, 'def3': 11.67, 'def4': 11.25, 'def5': 10.83, 'def6': 10.41 });
+		diceCharts.push({ 'attackDice': 24, 'def0': 13.5, 'def1': 13.08, 'def2': 12.65, 'def3': 12.23, 'def4': 11.81, 'def5': 11.39, 'def6': 10.97 });
+		diceCharts.push({ 'attackDice': 25, 'def0': 14.07, 'def1': 13.65, 'def2': 13.22, 'def3': 12.8, 'def4': 12.38, 'def5': 11.95, 'def6': 11.53 });
+		diceCharts.push({ 'attackDice': 26, 'def0': 14.63, 'def1': 14.2, 'def2': 13.78, 'def3': 13.36, 'def4': 12.94, 'def5': 12.51, 'def6': 12.1 });
+		diceCharts.push({ 'attackDice': 27, 'def0': 15.19, 'def1': 14.77, 'def2': 14.34, 'def3': 13.93, 'def4': 13.5, 'def5': 13.08, 'def6': 12.66 });
+		diceCharts.push({ 'attackDice': 28, 'def0': 15.74, 'def1': 15.32, 'def2': 14.9, 'def3': 14.48, 'def4': 14.07, 'def5': 13.64, 'def6': 13.22 });
+		diceCharts.push({ 'attackDice': 29, 'def0': 16.31, 'def1': 15.89, 'def2': 15.47, 'def3': 15.05, 'def4': 14.63, 'def5': 14.21, 'def6': 13.78 });
+		diceCharts.push({ 'attackDice': 30, 'def0': 16.87, 'def1': 16.45, 'def2': 16.03, 'def3': 15.61, 'def4': 15.19, 'def5': 14.76, 'def6': 14.35 });
+	}
+
+	function getResults() {
+		var attackDiceNumber = document.getElementById('attackDiceNumber').value;
+		var defenseDiceNumber = document.getElementById('defenseDiceNumber').value;
+		var chosenAttackRange;
+		diceCharts.forEach(x => {
+			if (x.attackDice == attackDiceNumber)
+				chosenAttackRange = x;
+		});
+		var expectedDamage = 0;
+		switch (parseInt(defenseDiceNumber)) {
+			case 0:
+				expectedDamage = chosenAttackRange.def0;
+				break;
+			case 1:
+				expectedDamage = chosenAttackRange.def1;
+				break;
+			case 2:
+				expectedDamage = chosenAttackRange.def2;
+				break;
+			case 3:
+				expectedDamage = chosenAttackRange.def3;
+				break;
+			case 4:
+				expectedDamage = chosenAttackRange.def4;
+				break;
+			case 5:
+				expectedDamage = chosenAttackRange.def5;
+				break;
+			case 6:
+				expectedDamage = chosenAttackRange.def6;
+				break;
+		}
+
+		document.getElementById("expectedDamageNumber").innerHTML = expectedDamage;
+	}
+
+	function init() {
+		buildCharts();
+	}
+</script>
